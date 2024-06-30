@@ -1,0 +1,77 @@
+[gd_scene load_steps=18 format=3 uid="uid://cjgyv5pal5smc"]
+
+[ext_resource type="PackedScene" uid="uid://dyc4yfq88gs0j" path="res://UI/WidgetPanel.tscn" id="1_cuuoa"]
+[ext_resource type="Script" path="res://UI/EditUI.gd" id="2_6c2jh"]
+[ext_resource type="Texture2D" uid="uid://dq8rbdtd77l0r" path="res://UI/HSplit.png" id="3_gitqj"]
+[ext_resource type="Texture2D" uid="uid://bbsr1jy5gsl6n" path="res://UI/HSplitClick.png" id="4_0f02o"]
+[ext_resource type="Texture2D" uid="uid://jfao01bh11re" path="res://UI/HSplitHover.png" id="5_mw083"]
+[ext_resource type="Texture2D" uid="uid://do5ja8c3huhso" path="res://UI/VSplit.png" id="6_t62oc"]
+[ext_resource type="Texture2D" uid="uid://d3katg8gsdabu" path="res://UI/VSplitClick.png" id="7_tf0dt"]
+[ext_resource type="Texture2D" uid="uid://d1dmttfoeu0at" path="res://UI/VSplitHover.png" id="8_oy8kj"]
+[ext_resource type="Texture2D" uid="uid://oapd327whqby" path="res://UI/Tabs.png" id="9_23dc8"]
+[ext_resource type="Texture2D" uid="uid://d3oe20gof0ghp" path="res://UI/TabsClick.png" id="10_hk225"]
+[ext_resource type="Texture2D" uid="uid://bj75odphjhtxs" path="res://UI/TabsHover.png" id="11_anqbv"]
+[ext_resource type="Texture2D" uid="uid://ccdp62tg53vs" path="res://UI/Config.png" id="12_30oty"]
+[ext_resource type="Texture2D" uid="uid://bg2ew7ewbpfw7" path="res://UI/ConfigClick.png" id="13_gag8v"]
+[ext_resource type="Texture2D" uid="uid://dqmpurh1bbtae" path="res://UI/ConfigHover.png" id="14_htp43"]
+[ext_resource type="Texture2D" uid="uid://dboetj86pi1ls" path="res://UI/Remove.png" id="15_ny6xo"]
+[ext_resource type="Texture2D" uid="uid://b6gsidsygqwm8" path="res://UI/RemoveClickpng.png" id="16_ua3ec"]
+[ext_resource type="Texture2D" uid="uid://dhfde55y8sk5j" path="res://UI/RemoveHover.png" id="17_gftwp"]
+
+[node name="MainUI" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WidgetPanel" parent="." instance=ExtResource("1_cuuoa")]
+layout_mode = 2
+
+[node name="EditUI" type="HFlowContainer" parent="WidgetPanel" groups=["EditUI"]]
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+alignment = 1
+script = ExtResource("2_6c2jh")
+
+[node name="HSplit" type="TextureButton" parent="WidgetPanel/EditUI"]
+layout_mode = 2
+texture_normal = ExtResource("3_gitqj")
+texture_pressed = ExtResource("4_0f02o")
+texture_hover = ExtResource("5_mw083")
+stretch_mode = 0
+
+[node name="VSplit" type="TextureButton" parent="WidgetPanel/EditUI"]
+layout_mode = 2
+texture_normal = ExtResource("6_t62oc")
+texture_pressed = ExtResource("7_tf0dt")
+texture_hover = ExtResource("8_oy8kj")
+stretch_mode = 0
+
+[node name="MakeTab" type="TextureButton" parent="WidgetPanel/EditUI"]
+layout_mode = 2
+texture_normal = ExtResource("9_23dc8")
+texture_pressed = ExtResource("10_hk225")
+texture_hover = ExtResource("11_anqbv")
+stretch_mode = 0
+
+[node name="Config" type="TextureButton" parent="WidgetPanel/EditUI"]
+layout_mode = 2
+texture_normal = ExtResource("12_30oty")
+texture_pressed = ExtResource("13_gag8v")
+texture_hover = ExtResource("14_htp43")
+stretch_mode = 0
+
+[node name="Remove" type="TextureButton" parent="WidgetPanel/EditUI"]
+layout_mode = 2
+texture_normal = ExtResource("15_ny6xo")
+texture_pressed = ExtResource("16_ua3ec")
+texture_hover = ExtResource("17_gftwp")
+stretch_mode = 0
+
+[connection signal="pressed" from="WidgetPanel/EditUI/HSplit" to="WidgetPanel/EditUI" method="_on_addHSplit"]
+[connection signal="pressed" from="WidgetPanel/EditUI/VSplit" to="WidgetPanel/EditUI" method="_on_addVSplit"]
+[connection signal="pressed" from="WidgetPanel/EditUI/MakeTab" to="WidgetPanel/EditUI" method="_on_AddTabPanel"]
+[connection signal="pressed" from="WidgetPanel/EditUI/Config" to="WidgetPanel/EditUI" method="_on_Config"]
+[connection signal="pressed" from="WidgetPanel/EditUI/Remove" to="WidgetPanel/EditUI" method="_on_Remove"]

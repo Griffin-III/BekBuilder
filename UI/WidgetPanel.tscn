@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyc4yfq88gs0j"]
+
+[ext_resource type="Script" path="res://UI/WidgetPanel.gd" id="1_64ah1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fc25v"]
+bg_color = Color(0.842732, 0.401436, 0.818423, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f3ubf"]
+bg_color = Color(0.349447, 0.404373, 0.491274, 1)
+
+[sub_resource type="Theme" id="Theme_jcbqk"]
+Control/styles/idk = SubResource("StyleBoxFlat_fc25v")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_f3ubf")
+
+[node name="WidgetPanel" type="PanelContainer" groups=["WidgetPanel"]]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_jcbqk")
+script = ExtResource("1_64ah1")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

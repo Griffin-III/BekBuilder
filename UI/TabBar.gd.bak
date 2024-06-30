@@ -1,0 +1,166 @@
+extends TabBar
+
+var tabRearranged
+var currentTab = 0
+var tabList = []
+var tabIcon = preload("res://UI/NewTab.png") 
+
+# godot docs DO NOT explain metadata. It can be anything and they explain it nowhere. The Variant page is garbage, the docs do not do this function justice
+# get_tab_metadata(tabInt, nodeTabShouldUse)
+
+
+# ------------ Base stuff ---------------------
+
+func editUIShow():
+	#if tab_count > 1:
+#		tab_close_display_policy = 1 as TabBar.CloseButtonDisplayPolicy
+	drag_to_rearrange_enabled = true
+	add_tab("", tabIcon)
+
+
+func editUIHide():
+	for tab in tab_count:
+		if get_tab_icon(tab) == tabIcon:
+			remove_tab(tab)
+
+	#tab_close_display_policy = 0 as TabBar.CloseButtonDisplayPolicy
+	drag_to_rearrange_enabled = false
+
+func moveUp(_nodeToRemove):
+	printerr("This is actually called?")
+
+
+# ------------------ Script general functions ----------------------
+
+
+# need to do something more with these to automate more steps elsewhere
+func matchTabInt(tabInt):
+	return tabList[tabInt]
+
+func matchTabNode(tabNode):
+	return tabList.find(tabNode)
+
+
+
+
+
+
+# ------------ Script Specific Functions ---------------------
+
+
+
+func _on_tab_rmb_clicked(tab:int):
+	print("on tab right lcick")
+	# open a menu on the mouse's position regardless of holding alt to rename or select tab icon
+	# going to change this to part of the right click menu and disable the close tab button to remove mistakes
+	for t in tab_count:
+		if get_tab_icon(t) == tabIcon:
+			remove_tab(t)
+	#print(tab_count)
+	if tab_count > 1:
+		removeTab(tab)
+	if Input.is_action_pressed("EditUI"):
+		add_tab("", tabIcon)
+
+
+func _on_active_tab_rearranged(_idx_to:int) -> void:
+	print("on tab rearranged")
+	# eventually need to add changing the order of the list to match
+
+	# this solves a dumb bug where arranging a tab after the last item also changes it to what was the last item. I think something else is wrong, will revisit
+	for tab in tab_count:
+		if get_tab_icon(tab) == tabIcon:
+			remove_tab(tab)
+	add_tab("", tabIcon)
+	tabRearranged = true
+
+func _on_tab_changed(tab:int):
+	if get_tab_icon(tab) == tabIcon:
+		print("adding new tab")
+		# this solves a dumb bug where arranging a tab after the last item also changes it to what was the last item. I think something else is wrong, will revisit
+		if tabRearranged:
+			tabRearranged = false
+			current_tab = current_tab - 1
+		else:
+			addTab()
+	else:
+		print("changed")
+		changeTab(tab)
+
+# bug where adding tabList doesn't change the active tab after removing a tab for the first time
+func addTab():
+	for tab in tab_count:
+		if get_tab_icon(tab) == tabIcon:
+			remove_tab(tab)
+	
+	add_tab("Tab" + str(tab_count + 1))
+	var n = SceneManager.addWidgetPanel(get_parent())
+	tabList.append(n)
+	print(tab_count)
+	changeTab(tab_count - 1)
+	#if tab_count > 1:
+	#	tab_close_display_policy = 1 as TabBar.CloseButtonDisplayPolicy
+
+	
+	set_tab_metadata(tab_count - 1, tabList[tab_count - 1])
+	print(get_tab_metadata(tab_count - 1))
+
+	add_tab("", tabIcon)
+
+
+
+func newAddTab(node):
+	# disable the newtab button to get an accurate count
+	for tab in tab_count:
+		if get_tab_icon(tab) == tabIcon:
+			remove_tab(tab)
+
+	add_tab("Tab" + str(tab_count))
+	pass
+
+
+func changeTab(tab):
+	tabList[currentTab].visible = false
+	tabList[tab].visible = true
+	currentTab = tab
+	current_tab = tab
+
+
+
+func removeTab(tabInt):
+	for tab in tab_count:
+		if get_tab_icon(tab) == tabIcon:
+			remove_tab(tab)
+	
+	var nextTab = tabInt + 1
+	if tabInt > 0:
+		nextTab = tabInt - 1
+
+	changeTab(nextTab)
+	get_tree().call_group("EditUI", "findNextParent", tabList[nextTab])
+	get_tree().call_group("EditUI", "changeParent")
+
+	remove_tab(tabInt)
+	#currentTab -= 1
+	tabList[tabInt].free()
+	tabList.remove_at(tabInt)
+	
+	#if tab_count - 1 < 2:
+	#	tab_close_display_policy = 0 as TabBar.CloseButtonDisplayPolicy
+
+	#add_tab("", tabIcon)
+
+	
+func swapTab(nodeRemove, nodeAdd):
+	print("Tab swapped")
+	var tabInt = tabList.find(nodeRemove)
+	tabList.remove_at(tabInt)
+	tabList.insert(tabInt, nodeAdd)
+
+
+
+
+
+
+
+

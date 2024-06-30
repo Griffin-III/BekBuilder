@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnkoa287mak1q"]
+
+[ext_resource type="Script" path="res://UI/TabPanel.gd" id="1_3m4tc"]
+[ext_resource type="Script" path="res://UI/TabBar.gd" id="2_okgau"]
+[ext_resource type="Texture2D" uid="uid://vahjp4tq3ey1" path="res://UI/NewTab.png" id="2_os5m0"]
+[ext_resource type="Script" path="res://UI/TabMenu.gd" id="4_gxltf"]
+
+[node name="TabSplit" type="VSplitContainer" node_paths=PackedStringArray("tabBar") groups=["Draggable", "TabPanel"]]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+dragger_visibility = 2
+script = ExtResource("1_3m4tc")
+tabBar = NodePath("TabBar")
+
+[node name="TabBar" type="TabBar" parent="." node_paths=PackedStringArray("tabMenu") groups=["Draggable"]]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+max_tab_width = 200
+select_with_rmb = true
+tab_count = 1
+tab_0/icon = ExtResource("2_os5m0")
+script = ExtResource("2_okgau")
+tabMenu = NodePath("TabMenu")
+
+[node name="TabMenu" type="VBoxContainer" parent="TabBar" node_paths=PackedStringArray("changeName", "changeIcon", "closeTab")]
+visible = false
+top_level = true
+layout_mode = 1
+anchors_preset = -1
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_gxltf")
+changeName = NodePath("ChangeName")
+changeIcon = NodePath("ChangeIcon")
+closeTab = NodePath("CloseTab")
+
+[node name="ChangeName" type="LineEdit" parent="TabBar/TabMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Tab Name"
+alignment = 1
+drag_and_drop_selection_enabled = false
+
+[node name="ChangeIcon" type="Button" parent="TabBar/TabMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Change Icon"
+
+[node name="CloseTab" type="Button" parent="TabBar/TabMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Close Tab"
+
+[connection signal="active_tab_rearranged" from="TabBar" to="TabBar" method="_on_active_tab_rearranged"]
+[connection signal="tab_changed" from="TabBar" to="TabBar" method="_on_tab_changed"]
+[connection signal="tab_close_pressed" from="TabBar" to="TabBar" method="_on_tab_close_pressed"]
+[connection signal="tab_rmb_clicked" from="TabBar" to="TabBar" method="_on_tab_rmb_clicked"]
+[connection signal="text_changed" from="TabBar/TabMenu/ChangeName" to="TabBar" method="_on_name_changed"]
+[connection signal="text_submitted" from="TabBar/TabMenu/ChangeName" to="TabBar" method="_on_change_name_enter"]
+[connection signal="pressed" from="TabBar/TabMenu/ChangeIcon" to="TabBar" method="_on_change_icon_pressed"]
+[connection signal="pressed" from="TabBar/TabMenu/CloseTab" to="TabBar" method="_on_close_tab_pressed"]

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://l0rn3iiio11o"]
+
+[node name="PanelContainer" type="PanelContainer"]
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+placeholder_text = "Text"

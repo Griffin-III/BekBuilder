@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsk0b6uw407xc"]
+
+[ext_resource type="Script" path="res://UI/ConfigMenu.gd" id="1_0pm4i"]
+
+[node name="ConfigMenu" type="PopupPanel"]
+initial_position = 1
+size = Vector2i(800, 800)
+visible = true
+unresizable = false
+borderless = false
+script = ExtResource("1_0pm4i")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 796.0
+offset_bottom = 796.0
+text = "New Tab"
+placeholder_text = "Enter Tab Name"
+
+[connection signal="text_changed" from="TextEdit" to="." method="_on_text_changed"]
