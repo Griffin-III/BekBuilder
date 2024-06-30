@@ -2,7 +2,7 @@
 .godot/
 .vscode/
 Exports/
-export_Presets.cfg
+export_presets.cfg
 notes.txt
 '~*'
 '*~'
